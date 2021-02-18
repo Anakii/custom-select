@@ -8,9 +8,9 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class SharedMultiSelectComponent implements OnInit {
   @Input() options: any[] = [];
-  @Input() placeholderLabel: string
+  @Input() placeholderLabel: string;
 
-  @ViewChild('defaultTemplate') defaultTemplate: TemplateRef<any>
+  @ViewChild('defaultTemplate') defaultTemplate: TemplateRef<{ option: string }>;
 
   @Output() onSelectedItem: EventEmitter<any> = new EventEmitter<any>();
 
@@ -27,48 +27,29 @@ export class SharedMultiSelectComponent implements OnInit {
   ngOnInit() {
     this.selectControl = new FormControl(null, [Validators.required])
   }
-  displayMultipleOptions():string {
-    return this.selectedOptions.join(",")
+  displayMultipleOptions(): string {
+    return this.selectedOptions.join(", ");
   }
   onToggle(event: MouseEvent): void {
     event.stopPropagation();
     this.toggled = !this.toggled;
   }
-  onSelect(event:MouseEvent,item: any, index: number): void {
-    event.stopPropagation()
-    console.log(item);
-    console.log("idx",index);
-    console.log(this.findSelectedIdx(item, index));
-    
-    
-    
-    const selectedIdx: number = this.findSelectedIdx(item, index)
+  onSelect(event: MouseEvent, item: any): void {
+    event.stopPropagation();
+    const selectedIdx: number = this.findSelectedIdx(item);
     if (selectedIdx !== -1) {
-      this.removeItem(item)
-      return
+      this.removeItem(item);
+      return;
     }
-    this.getItemPosition(item, index)
     this.selectedOptions.push(item);
-    console.log(this.selectedOptions);
-
-    // this.selected = item;
-    // this.selectControl.setValue(item);
-    // this.onSelectedItem.emit(item)
-
   }
-  removeItem(item:any) {
-    console.log(this.selectedOptions);
-    const selectedIdx: number = this.findSelectedIdx(item, item)
+  removeItem(item: any): void {
+    const selectedIdx: number = this.findSelectedIdx(item);
     this.selectedOptions.splice(selectedIdx, 1);
-    console.log(this.selectedOptions);
-    
-  }
-  findSelectedIdx(item: any, index: number): number {
-    return this.selectedOptions.findIndex(option=>item===option)// === -1?true:false
-  }
-  getItemPosition(item: any, index: number) {
-    // this.selectedOptions.findIndex()
   }
 
+  findSelectedIdx(item: any): number {
+    return this.selectedOptions.findIndex(option => item === option);
+  }
 
 }

@@ -1,0 +1,22 @@
+<div class="drop-down-container" formControlName="selectControl">
+  <div class="drop-down" (click)="onToggle($event)" [ngClass]="{'hide-bottom-border': toggled}">
+    <span>{{ displayMultipleOptions() || placeholderLabel}}</span>
+    <mat-icon class="down-arrow" aria-hidden="false" aria-label="Example home icon" [ngClass]="{'rotate': toggled}">
+      keyboard_arrow_down</mat-icon>
+  </div>
+  <ng-container *ngIf="toggled">
+    <div class="items-wrapper">
+      <div *ngFor="let option of options;let i =index" class="option-item" (click)="onSelect($event,option)">
+        <label>
+          {{option}}
+        </label>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" [checked]="findSelectedIdx(option) !== -1" />
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+
+</div>
+<ng-template #defaultTemplate></ng-template>

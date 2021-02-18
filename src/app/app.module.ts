@@ -3,23 +3,21 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { SharedDropDownComponent } from './shared-drop-down/shared-drop-down.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
-import { SharedMultiSelectComponent } from './shared-multi-select/shared-multi-select.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [	
-    AppComponent,
-      SharedDropDownComponent,
-      SharedMultiSelectComponent
+    AppComponent
    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatIconModule
+    MatIconModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

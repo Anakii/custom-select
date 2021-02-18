@@ -7,10 +7,9 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./shared-drop-down.component.scss']
 })
 export class SharedDropDownComponent implements OnInit {
-  @Input() options: any[] = []
-  @Input() placeholderLabel: string
-
-  @Input() customOption: TemplateRef<any>
+  @Input() options: any[] = [];
+  @Input() placeholderLabel: string;
+  @Input() customOption: TemplateRef<any>;
 
   @Output() onSelectedItem: EventEmitter<any> = new EventEmitter<any>();
 
@@ -25,7 +24,7 @@ export class SharedDropDownComponent implements OnInit {
   }
   constructor() { }
   ngOnInit() {
-    this.selectControl = new FormControl(null, [Validators.required])
+    this.selectControl = new FormControl(null, [Validators.required]);
   }
 
   onToggle(event: MouseEvent): void {
@@ -35,8 +34,7 @@ export class SharedDropDownComponent implements OnInit {
   onSelect(item: any): void {
     this.selected = item;
     this.selectControl.setValue(item);
-    this.onSelectedItem.emit(item)
-
+    this.onSelectedItem.emit(item);
   }
 
 
