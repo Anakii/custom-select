@@ -1,14 +1,30 @@
 <h1>
   deployment
 </h1>
-<app-shared-drop-down [options]="options" [placeholderLabel]="'regular select'"></app-shared-drop-down>
-<app-shared-drop-down [options]="options" [customOption]="customOptionRef" [placeholderLabel]="'custom select'">
-</app-shared-drop-down>
-<app-shared-multi-select [options]="options" [placeholderLabel]="'multi select'"></app-shared-multi-select>
-<router-outlet></router-outlet>
+<h1>{{form.get("favoriteNumber").value}}</h1>
+<h2>{{form.get("favoriteNumberCustom").value}}</h2>
 
-<ng-template #customOptionRef let-option>
-  <div class="custor-option">
-    <span>custom option {{option}}</span><span *ngFor="let smile of [].constructor(5)">😊</span>
-  </div>
-</ng-template>
+<form [formGroup]="form">
+
+  <app-shared-drop-down 
+  [options]="options" 
+  [placeholderLabel]="'regular select'"
+  formControlName="favoriteNumber"
+  >
+</app-shared-drop-down>
+<app-shared-drop-down formControlName="favoriteNumberCustom" [options]="options" [customOption]="customOptionRef" [placeholderLabel]="'custom select'">
+</app-shared-drop-down>
+</form>
+<app-shared-multi-select [options]="options" [placeholderLabel]="'multi select'"></app-shared-multi-select>
+<app-widget>
+  <app-wether-widget></app-wether-widget>
+</app-widget>
+<app-widget>
+  <app-jira-widget></app-jira-widget>
+  <router-outlet></router-outlet>
+
+  <ng-template #customOptionRef let-option>
+    <div class="custor-option">
+      <span>custom option {{option}}</span><span *ngFor="let smile of [].constructor(5)">😊</span>
+    </div>
+  </ng-template>

@@ -1,12 +1,19 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-shared-drop-down',
   templateUrl: './shared-drop-down.component.html',
-  styleUrls: ['./shared-drop-down.component.scss']
+  styleUrls: ['./shared-drop-down.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: SharedDropDownComponent,
+      multi: true
+    }
+  ]
 })
-export class SharedDropDownComponent implements OnInit {
+export class SharedDropDownComponent implements OnInit, ControlValueAccessor {
   @Input() options: any[] = [];
   @Input() placeholderLabel: string;
   @Input() customOption: TemplateRef<any>;
@@ -16,13 +23,29 @@ export class SharedDropDownComponent implements OnInit {
   toggled: boolean = false;
   selected: any;
   selectControl: FormControl;
-
+  onChange: (item: any) => void
   @HostListener("document:click", ['$event'])
   toggleSelect(event: MouseEvent): void {
     if (this.toggled === true)
-    this.onToggle(event);
+      this.onToggle(event);
   }
   constructor() { }
+  writeValue(obj: any): void {
+    this.selected = obj
+    console.log("!!!", obj);
+
+    // throw new Error('Method not implemented.');
+  }
+  registerOnChange(fn: any): void {
+    this.onChange = fn
+    // throw new Error('Method not implemented.');
+  }
+  registerOnTouched(fn: any): void {
+    // throw new Error('Method not implemented.');
+  }
+  setDisabledState?(isDisabled: boolean): void {
+    // throw new Error('Method not implemented.');
+  }
   ngOnInit() {
     this.selectControl = new FormControl(null, [Validators.required]);
   }
@@ -33,7 +56,7 @@ export class SharedDropDownComponent implements OnInit {
   }
   onSelect(item: any): void {
     this.selected = item;
-    this.selectControl.setValue(item);
+    this.onChange(item);//out component will notify the form control in the parent that the value changed
     this.onSelectedItem.emit(item);
   }
 
